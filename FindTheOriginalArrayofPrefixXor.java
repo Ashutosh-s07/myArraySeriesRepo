@@ -1,3 +1,4 @@
+// https://leetcode.com/problems/remove-linked-list-elements/description/
 import java.util.Arrays;
 
 public class FindTheOriginalArrayofPrefixXor {
