@@ -7,21 +7,22 @@ public class InsertInterval {
     public static int[][] insert(int[][] intervals, int[] newInterval) {
         
         List<int[]> res = new ArrayList<>();
-        if(intervals.length == 0 || intervals == null) return res.toArray(new int[0][]);
-
-        int starti = newInterval[0];
-        int endi = newInterval[1];
-
-        int start = intervals[0][0];
-        int end = intervals[0][1];
-        for( int[] i: intervals){
-            if( i[0]<start && i[1]<end ) res.add(new int[]{start,end});
-            else if( i[1]>start && i[0]<end ) start = i[0];
-            else if( i[1]>start && i[0]==end ) {
+        if(intervals.length == 0 || intervals == null) return new int[][]{newInterval};
+        
+        List<int[]> duplicate = new ArrayList<>();
+        for( int[]ar:intervals ) duplicate.add(ar);
+        duplicate.add(newInterval);
+        Collections.sort(duplicate,(a,b)->a[0]-b[0]);
+        
+        int start = duplicate.get(0)[0];
+        int end = duplicate.get(0)[1];
+        for( int[] i: duplicate){
+            if( end>=i[0] ) end = Math.max(end,i[1]);
+            else{
+                res.add(new int[]{start,end});
+                start = i[0];
                 end = i[1];
-                res.add(new int[]{ start,end });
-            }
-            else if( i[1]>start && i[0]>end ) start = i[0];
+            } 
         }
         res.add(new int[] {start,end});
         return res.toArray(new int[0][1]);
